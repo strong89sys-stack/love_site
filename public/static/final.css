@@ -1,0 +1,186 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f7d1ff, #d2eaff);
+  color: #4b006e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.proposal-container {
+  background: radial-gradient(circle at top left, #fffbe6, #ffe4f0);
+  border-radius: 25px;
+  padding: 50px 35px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  max-width: 600px;
+  width: 90%;
+  backdrop-filter: blur(10px);
+  animation: bounceIn 1s ease;
+}
+
+button {
+  background: linear-gradient(to right, #ff85c1, #fbbd5c);
+  border: none;
+  padding: 15px 30px;
+  font-weight: bold;
+  color: white;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.hidden {
+  display: none;
+}
+
+.animation-container {
+  position: relative;
+  margin-top: 30px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s ease;
+  text-align: center;
+}
+
+.animation-container.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.celebrate-message {
+  font-size: 1.4rem;
+  color: #c4005a;
+  margin-top: 20px;
+  animation: poptext 1s ease;
+}
+
+/* 🍰 Cakes that fall from the sky */
+.cake-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: visible;
+  z-index: 10;
+}
+
+.cake-rain::before,
+.cake-rain::after {
+  content: '🍰';
+  font-size: 2.5rem;
+  position: absolute;
+  animation: cakeDrop 2s linear forwards;
+}
+
+.cake-rain::before {
+  left: 10%;
+}
+
+.cake-rain::after {
+  left: 70%;
+}
+
+@keyframes cakeDrop {
+  0% { top: -100px; opacity: 0; }
+  30% { opacity: 1; }
+  100% { top: 500px; opacity: 0; }
+}
+
+/* 🎊 Confetti burst */
+.confetti-burst {
+  width: 100%;
+  height: 120px;
+  background-image: url('https://cdn.jsdelivr.net/gh/rauschma/confetti/background-confetti.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation: confettiPop 1.5s ease;
+  border-radius: 20px;
+}
+
+@keyframes confettiPop {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes poptext {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cake-rain {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+}
+
+#cake-field span {
+  position: absolute;
+  top: -50px;
+  font-size: 2.2rem;
+  animation: fallCake linear infinite;
+  color: #ff69b4;
+}
+
+.celebrate-message {
+  font-size: 1.2rem;
+  color: #c4005a;
+  margin-top: 20px;
+  animation: poptext 1s ease forwards;
+}
+
+@keyframes fallCake {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive pour iPhone 12 et autres petits écrans */
+@media screen and (max-width: 300px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .item {
+    height: auto;
+  }
+
+  .small,
+  .medium,
+  .tall,
+  .wide {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}

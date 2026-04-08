@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réponse reçue 💌</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #ffe0ec, #ffc4d6);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #c4005a;
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>📬 Réponse à ta demande</h1>
+    <p id="output">Chargement...</p>
+  </div>
+
+  <script>
+  const response = localStorage.getItem("reponse_mariage");
+  const date = localStorage.getItem("date_reponse");
+
+  document.getElementById("output").innerHTML = response
+    ? `👉 "${response}"<br><br>🕒 Reçu le : <strong>${date}</strong>`
+    : "😢 Aucune réponse enregistrée pour l'instant.";
+</script>
+</body>
+</html>
