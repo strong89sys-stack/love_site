@@ -5,17 +5,16 @@ require 'config.php';
 $couple_id = $_SESSION['couple_id'] ?? 1; // par défaut couple 1
 
 $stmt = $conn->prepare("SELECT u.username, u.sexe, m.message, m.created_at
-                        FROM messages m
-                        JOIN utilisateur u ON m.user_id = u.id
-                        WHERE u.couple_id = ?
+                        FROM messages as m, utilisateur as u
+                        WHERE m.user_id = u.user_id
+                        AND u.couple_id = :couple_id
                         ORDER BY m.created_at ASC");
-$stmt->bind_param("i", $couple_id);
+$stmt->bindParam(":couple_id", $couple_id, PDO::PARAM_INT);
 $stmt->execute();
-$result = $stmt->get_result();
 
-while($row = $result->fetch_assoc()){
-    $class = (isset($_SESSION['username']) === $row['username']) 
+while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    $class = ($_SESSION['username'] === $row['username']) 
               ? 'send' 
-              : ($row['sexe'] === 'h' ? 'receive-male' : 'receive-female');
+              : ($row['sexe'] === 'M' ? 'receive-male' : 'receive-female');
     echo "<li class='$class'><strong>".htmlspecialchars($row['username']).":</strong> ".htmlspecialchars($row['message'])."</li>";
 }

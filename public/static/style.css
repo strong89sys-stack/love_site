@@ -225,8 +225,8 @@ body {
     width: 90%;
 }
 form{
-    position: sticky;
-    bottom: 20px;
+    position: absolute;
+    bottom: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -319,7 +319,7 @@ form button{
 .option{
     position: absolute;
     left: 0;
-    bottom: 80px;
+    bottom: 150px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -330,6 +330,7 @@ form button{
 }
 .option.active{
     visibility: visible;
+    transition: 300ms ease-in-out;
 }
 .opt-item{
     border-radius: 0;

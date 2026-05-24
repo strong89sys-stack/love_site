@@ -1,6 +1,8 @@
 <?php 
-$title = 'login_page';
-require 'header.php' ?>
+    require 'config.php';
+    $title = 'login_page';
+    require 'header.php'
+?>
 
 <body>
     <style>
@@ -53,7 +55,7 @@ require 'header.php' ?>
     <form id="form" method="post" action="login.php">
         <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required>
         <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-        <button class="submit">Se connecter</button>
+        <input type="submit" name="submit" class="submit" value="Valider">    
     </form>
 </body>
 </html>

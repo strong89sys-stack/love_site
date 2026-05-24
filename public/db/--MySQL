@@ -1,0 +1,45 @@
+DROP TABLE IF EXISTS utilisateur;
+DROP TABLE IF EXISTS data_content;
+DROP TABLE IF EXISTS couple;
+DROP TABLE IF EXISTS messages;
+
+CREATE TABLE IF NOT EXISTS couple(
+	couple_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    couple_name VARCHAR(100) NOT NULL
+)ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS utilisateur(
+	user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL,
+    sexe CHARACTER NOT NULL,
+    passwd VARCHAR(255) NOT NULL,
+    couple_id INTEGER NOT NULL,
+    FOREIGN KEY (couple_id) REFERENCES couple(couple_id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS messages(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES utilisateur(user_id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS data_content (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_file VARCHAR(100) NOT NULL,
+    road_file TEXT NOT NULL,
+    type_file VARCHAR(50),
+    taille_file BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    couple_id INTEGER NOT NULL,
+    FOREIGN KEY (couple_id) REFERENCES couple(couple_id)
+)ENGINE=INNODB;
+
+/* -------------- INSERT -------------- */
+INSERT INTO couple (couple_name) VALUES
+("Kabore");
+
+INSERT INTO utilisateur (username, sexe, passwd, couple_id) VALUES
+("Strong", "M", "16072006", 1),
+("mOumou", "F", "24052007", 1);

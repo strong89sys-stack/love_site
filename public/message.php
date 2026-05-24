@@ -1,15 +1,15 @@
 <?php
-session_start();
-require 'config.php'; // connexion MySQL
+    session_start();
+    require 'config.php'; // connexion MySQL
 
-// Récupérer les messages
-$stmt = $conn->prepare("SELECT u.username, m.message, m.created_at 
-        FROM messages AS m, utilisateur AS u 
-        WHERE m.user_id = u.id 
-        ORDER BY m.created_at ASC");
-$stmt->execute();
-$result = $stmt->get_result();
-$messages = $result->fetch_all(MYSQLI_ASSOC);
+    // Récupérer les messages
+    $stmt = $conn->prepare("SELECT u.username, m.message, m.created_at 
+            FROM messages AS m, utilisateur AS u 
+            WHERE m.user_id = u.user_id 
+            ORDER BY m.created_at ASC"
+        );
+    $stmt->execute();
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -27,16 +27,23 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
         <div class="header-title">NOTRE ESPACE</div>
         <div class="heart"><img src="content/ico/heart.png" alt="heart"></div>
     </header>
+
     <div class='container-chat'>
         <ul id="messages">
             <!--<li class="receive">Me too❤️</li>
             <li class="send">I make a special website</li>
 -->
             <?php foreach($messages as $msg): ?>
-            <li class="receive">
-                <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
-                <?= htmlspecialchars($msg['message']) ?>
-            </li>
+                <?php
+                    $class = ($_SESSION['username'] === $msg['username']) 
+                        ? 'send' 
+                        : ($msg['sexe'] === 'M' ? 'receive-male' : 'receive-female');
+                ?>
+                <li class="<?= $class ?>">
+                    <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
+                    <?= htmlspecialchars($msg['message']) ?>
+                    <span class="date"><?= date("d/m H:i", strtotime($msg['created_at'])) ?></span>
+                </li>
             <?php endforeach; ?>
         </ul>
 
@@ -44,8 +51,9 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             <button class="add">+</button>
             <div class="msgbox">
                 <textarea id="input" autocomplete="on" rows="1" placeholder="Message"></textarea>
-                <button type="submit" class="submit"><img src="content/ico/send_11271363.png" alt="icon envoyé"></button>
-
+                <button type="submit" class="submit">
+                    <img src="content/ico/send_11271363.png" alt="icon envoyé">
+                </button>
             </div>
         </form>
 
@@ -56,6 +64,7 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             <button class="opt-item">📷 Upload une photo</button>
         </div>
     </div>
+
     <script>
         const form = document.getElementById('form');
         const input = document.getElementById('input');
@@ -64,7 +73,6 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (input.value.trim()) {
-                // Envoi du message
                 await fetch('send.php', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -76,6 +84,7 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
                 const res = await fetch('messages.php');
                 const html = await res.text();
                 messages.innerHTML = html;
+                messages.scrollTop = messages.scrollHeight; // auto-scroll en bas
             }
         });
 
@@ -84,10 +93,8 @@ $messages = $result->fetch_all(MYSQLI_ASSOC);
             const res = await fetch('messages.php');
             const html = await res.text();
             messages.innerHTML = html;
+            messages.scrollTop = messages.scrollHeight;
         }, 3000);
     </script>
-
-<!--    <script src="./chat.js"></script> -->
-    <script src="./js/message.js"></script>
 </body>
 </html>
