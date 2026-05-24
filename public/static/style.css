@@ -222,11 +222,13 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    justify-content: space-between;
     width: 90%;
+    margin-top: 6rem;
 }
 form{
-    position: absolute;
-    bottom: 100px;
+    position: sticky;
+    bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -304,22 +306,45 @@ form button{
   background-color: rgba(236, 19, 128, .1);
   align-self: flex-start;
   text-align: left;
-  margin-left: 10px;
+  margin-left: 0px;
+}
+
+.receive-male {
+  background-color: rgba(19, 128, 236, .1);
+  align-self: flex-start;
+  text-align: left;
+  margin-right: 0px;
 }
 
 /* Messages envoyés (à droite) */
-.receive-male {
-  background-color: rgba(19, 128, 236, .1);
+.send {
+  background-color: rgba(19, 236, 142, 0.215);
   align-self: flex-end;
   text-align: left;
-  margin-right: 10px;
+  margin-right: 0px;
+}
+
+.msg-box{
+    display: flex;
+}
+
+
+.pastille{
+    padding: 7px 8px;
+    border-radius: 50%;
+}
+.pastille.receive-female{
+    background-color: rgba(236, 19, 128, .1);
+}
+.pastille.receive-male{
+    background-color: rgba(19, 128, 236, .1);
 }
 
 /*----------------------------------------*/
 .option{
     position: absolute;
     left: 0;
-    bottom: 150px;
+    bottom: 50px;
     display: flex;
     flex-direction: column;
     gap: 10px;

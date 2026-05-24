@@ -1,7 +1,12 @@
 <?php 
     require 'config.php';
     $title = 'login_page';
-    require 'header.php'
+    require 'header.php';
+
+    if (isset($_COOKIE['username'])) {
+        header("Location: primary.php?message=welcome_back");
+        exit();
+    }
 ?>
 
 <body>

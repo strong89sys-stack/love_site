@@ -29,7 +29,7 @@ if (isset($submit)) {
                 $_SESSION['user_id'] = $res['user_id'];
                 $_SESSION['username']  = $res['username'];
                 $_SESSION['couple_id'] = $res['couple_id'];
-                
+                setcookie("username", $res['username'], time() + (3600 * 24)); // 24 heures
                 header("Location: primary.php?message=yes");
                 exit();
             }

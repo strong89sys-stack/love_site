@@ -3,7 +3,7 @@
     require 'config.php'; // connexion MySQL
 
     // Récupérer les messages
-    $stmt = $conn->prepare("SELECT u.username, m.message, m.created_at 
+    $stmt = $conn->prepare("SELECT u.username, u.sexe, m.message, m.created_at 
             FROM messages AS m, utilisateur AS u 
             WHERE m.user_id = u.user_id 
             ORDER BY m.created_at ASC"
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 
-<body>
+<body style="height: 100vh;">
     <header class="header">
         <div class="heart"><img src="content/ico/heart.png" alt="heart"></div>
         <div class="header-title">NOTRE ESPACE</div>
@@ -39,11 +39,22 @@
                         ? 'send' 
                         : ($msg['sexe'] === 'M' ? 'receive-male' : 'receive-female');
                 ?>
-                <li class="<?= $class ?>">
-                    <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
-                    <?= htmlspecialchars($msg['message']) ?>
+                <div>
+                    <div class="msg-box">
+                        <li class="<?= $class ?>">
+                            <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
+                            <?= htmlspecialchars($msg['message']) ?>
+                        </li>
+                        <span class="pastille <?= $class ?>">
+                            <?php
+                                $img = strtoupper(substr($msg['username'], 0, 2));
+                                echo htmlspecialchars($img);
+                            ?>
+                        </span>
+                    </div>
                     <span class="date"><?= date("d/m H:i", strtotime($msg['created_at'])) ?></span>
-                </li>
+                </div>
+                
             <?php endforeach; ?>
         </ul>
 
@@ -70,6 +81,22 @@
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
+        const containerChat = document.querySelector('.container-chat');
+        const addBtn = document.querySelector('.add');
+        const option = document.getElementById('option');
+        addBtn.addEventListener('click', () =>{
+            option.classList.add('active');
+        })
+
+        messages.addEventListener('click', () =>{
+            if (option.classList.contains('active') == true){
+                option.classList.remove('active')
+            }
+            else{
+                exit()
+            }
+        })
+        
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (input.value.trim()) {
