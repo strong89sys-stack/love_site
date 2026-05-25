@@ -18,5 +18,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
               : ($row['sexe'] === 'M' ? 'receive-male' : 'receive-female');
     echo "
         <li class='$class'>".htmlspecialchars($row['message'])."</li>
+        <span class='created_at $class'>".
+            date("d/m H:i", strtotime($row['created_at']))
+        ."</span>
     ";
 }

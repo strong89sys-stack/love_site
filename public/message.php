@@ -2,6 +2,10 @@
     session_start();
     require 'config.php'; // connexion MySQL
 
+    if (!isset($_COOKIE['username'])){
+        header("location:index.php?error=!connected");
+    }
+
     // Récupérer les messages
     $stmt = $conn->prepare("SELECT u.username, u.sexe, m.message, m.created_at 
             FROM messages AS m, utilisateur AS u 
@@ -10,6 +14,16 @@
         );
     $stmt->execute();
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = $conn->prepare("Select u.username
+        From utilisateur As u, couple As c
+        Where u.couple_id = c.couple_id
+        AND username <> :username
+        LIMIT 1;
+    ");
+    $stmt->bindParam(":username", $_COOKIE['username'], PDO::PARAM_STR);
+    $stmt->execute();
+    $res = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +38,9 @@
 <body style="height: 100vh;">
     <header class="header">
         <div class="heart"><img src="content/ico/heart.png" alt="heart"></div>
-        <div class="header-title">NOTRE ESPACE</div>
+        <div class="header-title">
+            <?= implode($res) ?>
+        </div>
         <div class="heart"><img src="content/ico/heart.png" alt="heart"></div>
     </header>
 
@@ -39,21 +55,13 @@
                         ? 'send' 
                         : ($msg['sexe'] === 'M' ? 'receive-male' : 'receive-female');
                 ?>
-                <div>
-                    <div class="msg-box">
-                        <li class="<?= $class ?>">
-                            <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
-                            <?= htmlspecialchars($msg['message']) ?>
-                        </li>
-                        <span class="pastille <?= $class ?>">
-                            <?php
-                                $img = strtoupper(substr($msg['username'], 0, 2));
-                                echo htmlspecialchars($img);
-                            ?>
-                        </span>
-                    </div>
-                    <span class="date"><?= date("d/m H:i", strtotime($msg['created_at'])) ?></span>
-                </div>
+                <li class="<?= $class ?>">
+                    <strong><?= htmlspecialchars($msg['username']) ?>:</strong> 
+                        <?= htmlspecialchars($msg['message']) ?>
+                </li>
+                <span class="created_at">
+                    <?= date("d/m H:i", strtotime($msg['created_at'])) ?>
+                </span>
                 
             <?php endforeach; ?>
         </ul>

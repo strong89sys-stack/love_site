@@ -1,7 +1,11 @@
 <?php
     $title = 'Pour_toi❤️';
     $link = 'static/style.css';
-    require 'header.php'
+    require 'header.php';
+
+    if(!isset($_COOKIE['username'])){
+        header("location:index.php?error=!connected");
+    }
 ?>
 <body>
     <header class="header">

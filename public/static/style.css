@@ -328,23 +328,17 @@ form button{
     display: flex;
 }
 
-
-.pastille{
-    padding: 7px 8px;
-    border-radius: 50%;
-}
-.pastille.receive-female{
-    background-color: rgba(236, 19, 128, .1);
-}
-.pastille.receive-male{
-    background-color: rgba(19, 128, 236, .1);
+.created_at{
+    background: none;
+    font-size: 10px;
+    color: rgba(255, 255, 255, .4);
 }
 
 /*----------------------------------------*/
 .option{
     position: absolute;
     left: 0;
-    bottom: 50px;
+    bottom: 130px;
     display: flex;
     flex-direction: column;
     gap: 10px;
